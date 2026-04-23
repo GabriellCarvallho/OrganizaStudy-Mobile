@@ -2,7 +2,7 @@
 
 > Transformando desorganização acadêmica em produtividade real.
 
-Um ecossistema mobile que permite estudantes gerenciarem disciplinas, cronometrarem sessões de estudo e acompanharem seu desempenho — tudo em tempo real.
+Um ecossistema mobile que permite estudantes gerenciarem disciplinas, cronometrarem sessões de estudo e acompanharem seu desempenho. Tudo em tempo real.
 
 ---
 
