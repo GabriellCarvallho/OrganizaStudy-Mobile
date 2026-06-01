@@ -37,7 +37,7 @@ fun BuscaScreen(uid: String, subjectVm: SubjectViewModel, taskVm: TaskViewModel,
     var query by remember { mutableStateOf("") }
     val focusReq = remember { FocusRequester() }
 
-    val discFilt  = if (query.isBlank()) emptyList() else disciplinas.filter { it.nome.contains(query, ignoreCase = true) }
+    val discFilt  = if (query.isBlank()) disciplinas else disciplinas.filter { it.nome.contains(query, ignoreCase = true) }
     val tarefFilt = if (query.isBlank()) emptyList() else tarefas.filter { it.titulo.contains(query, ignoreCase = true) || it.subjectNome.contains(query, ignoreCase = true) }
     val total     = discFilt.size + tarefFilt.size
 

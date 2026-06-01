@@ -48,13 +48,16 @@ fun DashboardScreen(
     val hoje  = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()) }
     val nome  = email.substringBefore("@").replaceFirstChar { it.uppercase() }
 
-    val tarefasHoje   = todasTarefas.filter { it.prazo == hoje }
-    val pendentesHoje = tarefasHoje.count { it.status == StatusTarefa.PENDENTE.name }
-    val totalHoras    = disciplinas.sumOf { it.minutosTotais } / 60
+    val pendentesTotal = todasTarefas.count { it.status == StatusTarefa.PENDENTE.name }
+    val tarefasHoje    = todasTarefas.filter { it.prazo == hoje }
+    val totalHoras     = disciplinas.sumOf { it.minutosTotais } / 3600
+
 
     LaunchedEffect(uid) {
-        subjectVm.carregar(uid)
-        taskVm.carregar(uid)
+        if (uid.isNotBlank()) {
+            subjectVm.carregar(uid)
+            taskVm.carregar(uid)
+        }
     }
 
     Scaffold(
@@ -109,7 +112,7 @@ fun DashboardScreen(
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             StatCard(Modifier.weight(1f), Icons.Outlined.AccessTime, "esta semana", "${totalHoras}h")
-                            StatCard(Modifier.weight(1f), Icons.Outlined.Assignment,  "pendentes",   "$pendentesHoje")
+                            StatCard(Modifier.weight(1f), Icons.Outlined.Assignment,  "pendentes",   "$pendentesTotal")
                             StatCard(Modifier.weight(1f), Icons.Outlined.Whatshot,    "streak",      "7d")
                         }
                     }
@@ -130,7 +133,10 @@ fun DashboardScreen(
                 }
             }
 
-            if (tarefasHoje.isEmpty()) {
+            val tarefasMostrar = if (tarefasHoje.isNotEmpty()) tarefasHoje
+            else todasTarefas.filter { it.status == StatusTarefa.PENDENTE.name }
+
+            if (tarefasMostrar.isEmpty()) {
                 item {
                     Card(
                         Modifier.fillMaxWidth().padding(horizontal = 20.dp),
@@ -139,19 +145,15 @@ fun DashboardScreen(
                         border = BorderStroke(1.dp, BordaCard)
                     ) {
                         Text(
-                            "Nenhuma tarefa para hoje! 🎉",
+                            "Nenhuma tarefa pendente! 🎉",
                             Modifier.padding(20.dp),
-                            color = TextoSecundario,
-                            fontSize = 14.sp
+                            color = TextoSecundario, fontSize = 14.sp
                         )
                     }
                 }
             } else {
-                items(tarefasHoje.take(3)) { t ->
-                    TarefaHojeCard(
-                        t        = t,
-                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)
-                    )
+                items(tarefasMostrar.take(3)) { t ->
+                    TarefaHojeCard(t, Modifier.padding(horizontal = 20.dp, vertical = 4.dp))
                 }
             }
 
