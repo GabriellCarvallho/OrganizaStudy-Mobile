@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#1A73E8</color>
+    <string name="app_name">OrganizaStudy</string>
+    <string name="gcm_defaultSenderId" translatable="false">798576555415</string>
+    <string name="google_api_key" translatable="false">AIzaSyA0sSwgkeBofg4Qi17eV80oeTO7QDhwO0o</string>
+    <string name="google_app_id" translatable="false">1:798576555415:android:25c0757e64372e9ae780d2</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA0sSwgkeBofg4Qi17eV80oeTO7QDhwO0o</string>
+    <string name="google_storage_bucket" translatable="false">organizastudy-6007d.firebasestorage.app</string>
+    <string name="project_id" translatable="false">organizastudy-6007d</string>
+    <style name="Theme.OrganizaStudy" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>

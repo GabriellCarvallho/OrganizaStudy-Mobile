@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "798576555415",
+    "project_id": "organizastudy-6007d",
+    "storage_bucket": "organizastudy-6007d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798576555415:android:25c0757e64372e9ae780d2",
+        "android_client_info": {
+          "package_name": "com.organizastudy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0sSwgkeBofg4Qi17eV80oeTO7QDhwO0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
