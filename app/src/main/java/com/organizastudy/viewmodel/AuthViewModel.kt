@@ -45,7 +45,10 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun logout() { repo.logout(); _state.value = AuthState.Idle }
+    fun logout() {
+        repo.logout();
+        _state.value = AuthState.Idle
+    }
     fun resetar() { _state.value = AuthState.Idle }
 
     private fun traduzir(msg: String?) = when {

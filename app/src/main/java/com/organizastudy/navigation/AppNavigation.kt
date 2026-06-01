@@ -61,7 +61,7 @@ fun AppNavigation() {
                 onLogout  = {
                     authVm.logout()
                     nav.navigate(Rotas.LOGIN) {
-                        popUpTo(Rotas.HOME) { inclusive = true }
+                        popUpTo(0) { inclusive = true }
                     }
                 }
             )

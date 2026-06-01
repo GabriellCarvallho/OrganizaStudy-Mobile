@@ -69,7 +69,7 @@ fun SubjectsScreen(
 
             // Cabeçalho + Busca
             item {
-                Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(top = 24.dp, bottom = 12.dp)) {
+                Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(top = 12.dp, bottom = 12.dp)) {
                     Text("Disciplinas", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextoPrimario)
                     Text("${disciplinas.size} disciplina(s) cadastrada(s)", fontSize = 13.sp, color = TextoSecundario)
                     Spacer(Modifier.height(12.dp))

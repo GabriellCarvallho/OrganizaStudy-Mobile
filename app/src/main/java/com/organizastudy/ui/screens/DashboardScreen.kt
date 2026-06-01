@@ -48,10 +48,12 @@ fun DashboardScreen(
     val hoje  = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()) }
     val nome  = email.substringBefore("@").replaceFirstChar { it.uppercase() }
 
-    val pendentesTotal = todasTarefas.count { it.status == StatusTarefa.PENDENTE.name }
     val tarefasHoje    = todasTarefas.filter { it.prazo == hoje }
+    val pendentesTotal = todasTarefas.count { it.status == StatusTarefa.PENDENTE.name }
     val totalHoras     = disciplinas.sumOf { it.minutosTotais } / 3600
 
+    // Streak = número de disciplinas com pelo menos 1 segundo estudado
+    val streak = disciplinas.count { it.minutosTotais > 0 }
 
     LaunchedEffect(uid) {
         if (uid.isNotBlank()) {
@@ -65,7 +67,9 @@ fun DashboardScreen(
         containerColor = FundoTela
     ) { pad ->
         LazyColumn(
-            Modifier.fillMaxSize().padding(pad),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(pad),           // ← padding do Scaffold resolve sobreposição
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
 
@@ -76,7 +80,7 @@ fun DashboardScreen(
                         .fillMaxWidth()
                         .background(Brush.verticalGradient(listOf(AzulEscuro, Azul)))
                         .padding(horizontal = 20.dp)
-                        .padding(top = 48.dp, bottom = 24.dp)
+                        .padding(top = 24.dp, bottom = 24.dp)
                 ) {
                     Column {
                         Row(
@@ -86,12 +90,9 @@ fun DashboardScreen(
                         ) {
                             Column {
                                 Text("Olá,", fontSize = 14.sp, color = Color.White.copy(alpha = 0.85f))
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(nome, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                                    Spacer(Modifier.width(6.dp))
-                                    Text("👋", fontSize = 22.sp)
-                                }
+                                Text(nome, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
                             }
+                            // Botão sair — sem emoji, ícone limpo
                             IconButton(onClick = onLogout) {
                                 Box(
                                     contentAlignment = Alignment.Center,
@@ -100,7 +101,7 @@ fun DashboardScreen(
                                         .clip(RoundedCornerShape(12.dp))
                                         .background(Color.White.copy(alpha = 0.2f))
                                 ) {
-                                    Icon(Icons.Default.Logout, null, tint = Color.White)
+                                    Icon(Icons.Default.Logout, "Sair", tint = Color.White)
                                 }
                             }
                         }
@@ -111,9 +112,9 @@ fun DashboardScreen(
                             Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            StatCard(Modifier.weight(1f), Icons.Outlined.AccessTime, "esta semana", "${totalHoras}h")
-                            StatCard(Modifier.weight(1f), Icons.Outlined.Assignment,  "pendentes",   "$pendentesTotal")
-                            StatCard(Modifier.weight(1f), Icons.Outlined.Whatshot,    "streak",      "7d")
+                            StatCard(Modifier.weight(1f), Icons.Outlined.AccessTime,  "esta semana",  "${totalHoras}h")
+                            StatCard(Modifier.weight(1f), Icons.Outlined.Assignment,  "pendentes",    "$pendentesTotal")
+                            StatCard(Modifier.weight(1f), Icons.Outlined.LocalLibrary,"streak",       "${streak}d")
                         }
                     }
                 }
@@ -144,16 +145,22 @@ fun DashboardScreen(
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         border = BorderStroke(1.dp, BordaCard)
                     ) {
-                        Text(
-                            "Nenhuma tarefa pendente! 🎉",
+                        Row(
                             Modifier.padding(20.dp),
-                            color = TextoSecundario, fontSize = 14.sp
-                        )
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(Icons.Default.CheckCircle, null, tint = CorBaixa, modifier = Modifier.size(22.dp))
+                            Text("Nenhuma tarefa pendente!", color = TextoSecundario, fontSize = 14.sp)
+                        }
                     }
                 }
             } else {
                 items(tarefasMostrar.take(3)) { t ->
-                    TarefaHojeCard(t, Modifier.padding(horizontal = 20.dp, vertical = 4.dp))
+                    TarefaHojeCard(
+                        t        = t,
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)
+                    )
                 }
             }
 
@@ -162,19 +169,16 @@ fun DashboardScreen(
                 item {
                     Text(
                         "Continue estudando",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = TextoPrimario,
+                        fontSize = 16.sp, fontWeight = FontWeight.Bold, color = TextoPrimario,
                         modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
                     )
                 }
-
                 items(disciplinas.sortedByDescending { it.minutosTotais }.take(3)) { s ->
                     val cor = runCatching {
                         Color(android.graphics.Color.parseColor(s.cor))
                     }.getOrDefault(Azul)
-                    val h = s.minutosTotais / 60
-                    val m = s.minutosTotais % 60
+                    val h   = s.minutosTotais / 3600
+                    val m   = (s.minutosTotais % 3600) / 60
 
                     Card(
                         modifier = Modifier
@@ -264,16 +268,10 @@ fun TarefaHojeCard(t: Task, modifier: Modifier = Modifier) {
             )
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
+                Text(t.titulo, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = TextoPrimario)
                 Text(
-                    t.titulo,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextoPrimario
-                )
-                Text(
-                    if (t.prazo.isNotBlank()) "Hoje · ${t.prazo}" else "Hoje",
-                    fontSize = 12.sp,
-                    color = TextoSecundario
+                    if (t.prazo.isNotBlank()) t.prazo else "Sem prazo",
+                    fontSize = 12.sp, color = TextoSecundario
                 )
             }
             Box(

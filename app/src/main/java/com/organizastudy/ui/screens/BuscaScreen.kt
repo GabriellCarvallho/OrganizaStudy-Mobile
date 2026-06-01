@@ -46,7 +46,7 @@ fun BuscaScreen(uid: String, subjectVm: SubjectViewModel, taskVm: TaskViewModel,
     Scaffold(bottomBar = { BottomNavBar(rotaAtual, onNavegar) }, containerColor = FundoTela) { pad ->
         Column(Modifier.fillMaxSize().padding(pad)) {
             // Header
-            Column(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 20.dp, vertical = 20.dp)) {
+            Column(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 20.dp).padding(top = 8.dp, bottom = 16.dp)) {
                 Text("Busca", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextoPrimario, modifier = Modifier.padding(bottom = 12.dp))
                 OutlinedTextField(
                     value = query, onValueChange = { query = it },

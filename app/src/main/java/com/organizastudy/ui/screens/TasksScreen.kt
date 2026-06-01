@@ -123,7 +123,7 @@ fun TarefaCard(t: Task, onToggle: () -> Unit, onEditar: () -> Unit, onDeletar: (
     val corSub  = runCatching { Color(android.graphics.Color.parseColor(t.subjectCor)) }.getOrDefault(Azul)
 
     Card(modifier = modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(0.dp), border = BorderStroke(1.dp, BordaCard)
+        colors = CardDefaults.cardColors(containerColor =  if(concluida) Color (0xFFF9FA) else Color.White), elevation = CardDefaults.cardElevation(0.dp), border = BorderStroke(1.dp, if(concluida) Color(0xFF5E7EB) else BordaCard)
     ) {
         Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Checkbox(checked = concluida, onCheckedChange = { onToggle() }, colors = CheckboxDefaults.colors(checkedColor = Azul, uncheckedColor = Color(0xFFD1D5DB)))
