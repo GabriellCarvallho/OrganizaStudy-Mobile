@@ -177,8 +177,8 @@ fun DashboardScreen(
                     val cor = runCatching {
                         Color(android.graphics.Color.parseColor(s.cor))
                     }.getOrDefault(Azul)
-                    val h   = s.minutosTotais / 3600
-                    val m   = (s.minutosTotais % 3600) / 60
+                    val h = s.minutosTotais / 60
+                    val m = s.minutosTotais % 60
 
                     Card(
                         modifier = Modifier

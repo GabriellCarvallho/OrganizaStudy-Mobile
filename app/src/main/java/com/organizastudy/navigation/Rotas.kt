@@ -7,4 +7,6 @@ object Rotas {
     const val DISCIPLINAS = "disciplinas"
     const val TAREFAS     = "tarefas"
     const val BUSCA       = "busca"
+
+    const val MATERIAIS   = "materiais"
 }

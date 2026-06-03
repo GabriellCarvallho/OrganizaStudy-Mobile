@@ -8,6 +8,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.organizastudy.ui.screens.*
 import com.organizastudy.viewmodel.*
+import com.organizastudy.viewmodel.LivroViewModel
+import com.organizastudy.ui.screens.MateriaisScreen
 
 @Composable
 fun AppNavigation() {
@@ -96,6 +98,16 @@ fun AppNavigation() {
                 uid       = uid,
                 subjectVm = subjectVm,
                 taskVm    = taskVm,
+                rotaAtual = rotaAtual,
+                onNavegar = ::navegar
+            )
+        }
+
+        // API REST — Retrofit
+        composable(Rotas.MATERIAIS) {
+            val livroVm: LivroViewModel = viewModel()
+            MateriaisScreen(
+                vm        = livroVm,
                 rotaAtual = rotaAtual,
                 onNavegar = ::navegar
             )

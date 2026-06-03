@@ -23,6 +23,7 @@ val itensNav = listOf(
     ItemNav(Rotas.HOME, "Início", Icons.Filled.Home),
     ItemNav(Rotas.DISCIPLINAS, "Disciplinas", Icons.Outlined.MenuBook),
     ItemNav(Rotas.TAREFAS,     "Tarefas",     Icons.Outlined.CheckBox),
+    ItemNav(Rotas.MATERIAIS,   "Materiais",   Icons.Default.Search),
     ItemNav(Rotas.BUSCA,       "Busca",       Icons.Filled.Search),
 )
 
